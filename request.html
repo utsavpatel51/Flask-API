@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<form id="my-form" onsubmit=my()>
+    <input type="text" id="username" name="username" placeholder="UserName" required>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <button type="submit" id ='btn'>Submit</button>
+</form>
+
+<script>
+	function my(){
+		event.preventDefault()
+		user = document.getElementById('username').value
+		pass = document.getElementById('password').value
+    if (user != null && pass !=null){
+    const data={
+          username: user,
+          password: pass
+        };
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'http://localhost:5000/register', true);
+
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            const res = this.responseText
+            //console.log(res)
+            if(res == "<h1>User already exists</h1>"){
+              alert('username already exists')
+            }
+            if(res == "<h1>Data send successfully</h1>"){
+              alert("Data send successfully")
+            }
+            
+        }
+    }
+    xhr.send(JSON.stringify(data));}
+    }
+</script>
+</body>
+</html>
